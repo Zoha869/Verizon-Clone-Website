@@ -38,32 +38,6 @@
       cursor: none;
     }
 
-    /* CUSTOM CURSOR */
-    .cursor-dot {
-      width: 8px; height: 8px;
-      background: var(--red);
-      border-radius: 50%;
-      position: fixed;
-      top: 0; left: 0;
-      pointer-events: none;
-      z-index: 99999;
-      transition: transform 0.1s ease;
-      transform: translate(-50%, -50%);
-    }
-    .cursor-ring {
-      width: 36px; height: 36px;
-      border: 1.5px solid var(--red);
-      border-radius: 50%;
-      position: fixed;
-      top: 0; left: 0;
-      pointer-events: none;
-      z-index: 99998;
-      transform: translate(-50%, -50%);
-      transition: transform 0.15s ease, width 0.2s ease, height 0.2s ease, opacity 0.2s ease;
-    }
-    body:hover .cursor-ring { opacity: 1; }
-    a:hover ~ .cursor-ring, button:hover ~ .cursor-ring { width: 52px; height: 52px; }
-
     /* SCROLLBAR */
     ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-track { background: var(--black); }
@@ -878,7 +852,6 @@
       .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
       .banner-cta-group { flex-direction: column; align-items: center; }
     }
-    @media (max-width: 768px) { .nav-links, .nav-actions { position: absolute; top: 64px; left: 0; width: 100%; background: var(--black); flex-direction: column; align-items: flex-start; padding: 20px; gap: 16px; display: none; border-top: 1px solid rgba(255,255,255,0.08); } .nav-links.active, .nav-actions.active { display: flex; } .nav-links a { font-size: 16px; width: 100%; } .nav-actions { border-top: none; padding-top: 0; } .hamburger.active span:nth-child(1) { transform: rotate(45deg) translateY(7px); } .hamburger.active span:nth-child(2) { opacity: 0; } .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translateY(-7px); } } </style>
   </style>
 </head>
 <body>
@@ -1323,7 +1296,7 @@
   const dot = document.getElementById('cursorDot');
   const ring = document.getElementById('cursorRing');
   let mx = 0, my = 0, rx = 0, ry = 0;
-  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+
   function animateCursor() {
     dot.style.left = mx + 'px'; dot.style.top = my + 'px';
     rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
@@ -1393,14 +1366,18 @@
   });
 
   // HAMBURGER (simple)
-  function toggleMenu() { const links = document.querySelector('.nav-links'); const actions = document.querySelector('.nav-actions'); const hamburger = document.querySelector('.hamburger'); links.classList.toggle('active'); actions.classList.toggle('active'); hamburger.classList.toggle('active');
+  function toggleMenu() {
+    const links = document.querySelector('.nav-links');
+    const actions = document.querySelector('.nav-actions');
+    if (links) links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+  }
+
   // PARALLAX HERO GLOW
   window.addEventListener('scroll', () => {
     const scrollY = window.scrollY;
     const glow = document.querySelector('.hero-glow');
     if (glow) glow.style.transform = `translateY(${scrollY * 0.3}px)`;
   });
-  document.querySelectorAll('.nav-links a').forEach(link => { link.addEventListener('click', () => { document.querySelector('.nav-links').classList.remove('active'); document.querySelector('.nav-actions').classList.remove('active'); document.querySelector('.hamburger').classList.remove('active'); }); })};
 </script>
 </body>
 </html>
